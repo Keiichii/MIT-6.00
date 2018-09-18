@@ -2,7 +2,7 @@
 #start_time = time.time()
 
 # the outstanding balance on the credit card
-balance = 484
+balance = 3329
 # annual interest rate as a decimal
 annualInterestRate = 0.2
 # minimum monthly payment rate as a decimal
@@ -16,7 +16,8 @@ def dept(monthBalance,annualInterestRate,monthlyPaymentRate,month):
         minMonthPayment = monthlyPaymentRate * monthBalance
         monthUnpaidBal = monthBalance - minMonthPayment
         monthBalance = monthUnpaidBal + (annualInterestRate/12 * monthUnpaidBal)
-#        print('Month', monthes-month+1, 'Remaining balance:', round(monthBalance,2))
+        print(minMonthPayment)
+        print('Month', monthes-month+1, 'Remaining balance:', round(monthBalance,2))
         return round(dept(monthBalance,annualInterestRate,monthlyPaymentRate,month-1),2)
         
 print('Remaining balance:', dept(balance, annualInterestRate, monthlyPaymentRate, monthes))
