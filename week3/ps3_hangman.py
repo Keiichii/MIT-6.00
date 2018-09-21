@@ -54,6 +54,7 @@ def isWordGuessed(secretWord, lettersGuessed):
     print(lettersGuessed)
     print('set secretWord:', set(secretWord))
     print('set lettersGuessed:', set(lettersGuessed))
+    print()
     return set(secretWord) in set(lettersGuessed)
     
 
