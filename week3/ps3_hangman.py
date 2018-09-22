@@ -50,12 +50,7 @@ def isWordGuessed(secretWord, lettersGuessed):
     returns: boolean, True if all the letters of secretWord are in lettersGuessed;
       False otherwise
     '''
-    print(list(set(secretWord)))
-    print(lettersGuessed)
-    print('set secretWord:', set(secretWord))
-    print('set lettersGuessed:', set(lettersGuessed))
-    print()
-    return set(secretWord) in set(lettersGuessed)
+    return set(secretWord).issubset(lettersGuessed)
     
 
 
@@ -67,8 +62,13 @@ def getGuessedWord(secretWord, lettersGuessed):
     returns: string, comprised of letters and underscores that represents
       what letters in secretWord have been guessed so far.
     '''
-    # FILL IN YOUR CODE HERE...
-
+    guessedword = ''
+    for letter in secretWord:
+        if letter in lettersGuessed:
+            guessedword += letter+' '
+        else:
+            guessedword += '_ '
+    return guessedword
 
 
 def getAvailableLetters(lettersGuessed):
@@ -77,7 +77,12 @@ def getAvailableLetters(lettersGuessed):
     returns: string, comprised of letters that represents what letters have not
       yet been guessed.
     '''
-    # FILL IN YOUR CODE HERE...
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    aval = ''
+    for _ in alphabet:
+        if _ not in lettersGuessed:
+            aval += _
+    return aval
     
 
 def hangman(secretWord):
@@ -100,21 +105,42 @@ def hangman(secretWord):
 
     Follows the other limitations detailed in the problem write-up.
     '''
-    # FILL IN YOUR CODE HERE...
+    lettersGuessed = []
+    mistakesMade = 0
 
-
-
-
-
+    print('Welcome to the game, Hangman!')
+    print('I am thinking of a word that is', len(secretWord), 'letters long.')
+    
+    while True:
+        print('-------------')
+        print('You have', 8-mistakesMade, 'guesses left.')
+        print('Available letters:', getAvailableLetters(lettersGuessed))
+        guess = input('Please guess a letter: ').lower()
+        
+        if guess in lettersGuessed:
+            print("Oops! You've already guessed that letter:", getGuessedWord(secretWord, lettersGuessed))
+        else:
+            lettersGuessed += guess
+            guessedWord = getGuessedWord(secretWord, lettersGuessed)
+            if guess in secretWord:
+                print('Good guess:', guessedWord)
+                if '_' not in guessedWord:
+                    print('------------\n', 'Congratulations, you won!')
+                    break
+            else:
+                print('Oops! That letter is not in my word:', guessedWord)
+                mistakesMade +=1
+                if mistakesMade == 8:
+                    print('-----------\n', 'Sorry, you ran out of guesses. The word was else.')
+                    break
+    
 
 # When you've completed your hangman function, uncomment these two lines
 # and run this file to test! (hint: you might want to pick your own
 # secretWord while you're testing)
 
-# secretWord = chooseWord(wordlist).lower()
-# hangman(secretWord)
+secretWord = chooseWord(wordlist).lower()
+#secretWord = 'hello'
+hangman(secretWord)
 
-secretWord = 'hello'
-lettersGuessed = ['h', 'e', 'l', 'l', 'o']
-#lettersGuessed.append(set(lettersGuessed))
-print(isWordGuessed(secretWord, lettersGuessed))
+# Проверка на 1 букву!!
