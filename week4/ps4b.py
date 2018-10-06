@@ -28,18 +28,25 @@ def compChooseWord(hand, wordList, n):
     # Create a new variable to store the best word seen so far (initially None)  
     bestWord = None
     # For each word in the wordList
-    for word in wordList:
-        # If you can construct the word from your hand
-        if isValidWord(word, hand, wordList):
-            # find out how much making that word is worth
-            score = getWordScore(word, n)
-            # If the score for that word is higher than your best score
-            if (score > bestScore):
-                # update your best score, and best word accordingly
-                bestScore = score
-                bestWord = word
-    # return the best word you found.
-    return bestWord
+    for y in range(n, 0, -1):
+        wordList.sort(key=lambda z: len(z)==y, reverse=True)
+        for word in wordList:
+            # If you can construct the word from your hand
+            if len(word) == y:
+                if isValidWord(word, hand, wordList):
+                    # find out how much making that word is worth
+                    score = getWordScore(word, n)
+                    # If the score for that word is higher than your best score
+                    if (score > bestScore):
+                        # update your best score, and best word accordingly
+                        bestScore = score
+                        bestWord = word
+            else:
+                break
+        # return the best word you found.
+        if bestWord:
+            return bestWord
+        
 
 #
 # Computer plays a hand
@@ -132,7 +139,26 @@ def playGame(wordList):
 # Build data structures used for entire session and play game
 #
 if __name__ == '__main__':
-    wordList = loadWords()
-    playGame(wordList)
-
-
+#    wordList = loadWords()
+#    playGame(wordList)
+    
+# =============================================================================
+#     #TEST SIMPLE
+#     hand = {'a': 2, 'c': 1, 'b': 1, 't': 1}
+#     wordList = ['a', 'aa', 'aaa', 'b', 'bb', 'bbb', 'A', 'AA', 'BB']
+#     start = time.time()
+#     z = compChooseWord(hand, wordList, 5)
+#     end = time.time()
+#     print(end - start)
+#     print(z, len(z))
+#     
+# =============================================================================
+    #TEST FULL
+    wordList = loadWords('words.txt')
+    hand = {'a': 2, 'c': 1, 'b': 1, 't': 1}
+    import time
+    start = time.time()
+    z = compChooseWord(hand, wordList, 5)
+    end = time.time()
+    print(end - start)
+    print(z, len(z))
