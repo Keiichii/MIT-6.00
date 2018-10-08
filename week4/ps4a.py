@@ -17,7 +17,7 @@ SCRABBLE_LETTER_VALUES = {
 
 WORDLIST_FILENAME = "words.txt"
 
-def loadWords(file):
+def loadWords():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
     
@@ -26,11 +26,11 @@ def loadWords(file):
     """
     print("Loading word list from file...")
     # inFile: file
-    inFile = open(file, 'r')
+    inFile = open('words.txt', 'r')
     # wordList: list of strings
-    wordList = []
+    wordList = set()
     for line in inFile:
-        wordList.append(line.strip().lower())
+        wordList.add(line.strip().lower())
     print("  ", len(wordList), "words loaded.")
     return wordList
 

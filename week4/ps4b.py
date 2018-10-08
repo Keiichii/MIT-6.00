@@ -23,30 +23,55 @@ def compChooseWord(hand, wordList, n):
 
     returns: string or None
     """
+   
     # Create a new variable to store the maximum score seen so far (initially 0)
     bestScore = 0
     # Create a new variable to store the best word seen so far (initially None)  
     bestWord = None
     # For each word in the wordList
-    for y in range(n, 0, -1):
-        wordList.sort(key=lambda z: len(z)==y, reverse=True)
-        for word in wordList:
-            # If you can construct the word from your hand
-            if len(word) == y:
-                if isValidWord(word, hand, wordList):
-                    # find out how much making that word is worth
-                    score = getWordScore(word, n)
-                    # If the score for that word is higher than your best score
-                    if (score > bestScore):
-                        # update your best score, and best word accordingly
-                        bestScore = score
-                        bestWord = word
-            else:
-                break
-        # return the best word you found.
-        if bestWord:
-            return bestWord
-        
+    for word in wordList:
+        # If you can construct the word from your hand
+        if isValidWord(word, hand, wordList):
+            # find out how much making that word is worth
+            score = getWordScore(word, n)
+            # If the score for that word is higher than your best score
+            if (score > bestScore):
+                # update your best score, and best word accordingly
+                bestScore = score
+                bestWord = word
+    # return the best word you found.
+    return bestWord
+    
+    
+    
+    
+    
+# =============================================================================
+#     # Create a new variable to store the maximum score seen so far (initially 0)
+#     bestScore = 0
+#     # Create a new variable to store the best word seen so far (initially None)  
+#     bestWord = None
+#     # For each word in the wordList
+#     for y in range(n, 0, -1):
+#         wordList.sort(key=lambda z: len(z)==y, reverse=True)
+#         for word in wordList:
+#             # If you can construct the word from your hand
+#             if len(word) == y:
+#                 if isValidWord(word, hand, wordList):
+#                     # find out how much making that word is worth
+#                     score = getWordScore(word, n)
+#                     # If the score for that word is higher than your best score
+#                     if (score > bestScore):
+#                         # update your best score, and best word accordingly
+#                         bestScore = score
+#                         bestWord = word
+#             else:
+#                 break
+#         # return the best word you found.
+#         if bestWord:
+#             return bestWord
+#         
+# =============================================================================
 
 #
 # Computer plays a hand
@@ -131,16 +156,49 @@ def playGame(wordList):
 
     wordList: list (string)
     """
-    # TO DO... <-- Remove this comment when you code this function
-    print("playGame not yet implemented.") # <-- Remove this when you code this function
-
+    hand = None
+    while True:
+        player = input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
+        if player == 'n':
+            hand = dealHand(HAND_SIZE)
+            while True:
+                player = input('Enter u to have yourself play, c to have the computer play: ')
+                if player == 'u':
+                    playHand(hand, wordList, HAND_SIZE)
+                    break
+                elif player == 'c':
+                    compPlayHand(hand, wordList, HAND_SIZE)
+                    break
+                else:
+                    print('Invalid command.')
+        elif player == 'r':
+            #play last hand again
+            if hand:
+                player = input('Enter u to have yourself play, c to have the computer play: ')
+                while True:
+                    if player == 'u':
+                        playHand(hand, wordList, HAND_SIZE)
+                        break
+                    elif player == 'c':
+                        compPlayHand(hand, wordList, HAND_SIZE)
+                        break
+                    else:
+                        print('Invalid command.')
+            else:
+                print('You have not played a hand yet. Please play a new hand first!')
+        elif player == 'e':
+            break
+        else:
+            print('Invalid command.')
         
 #
 # Build data structures used for entire session and play game
 #
 if __name__ == '__main__':
-#    wordList = loadWords()
-#    playGame(wordList)
+    wordList = loadWords()
+    playGame(wordList)
+    
+    
     
 # =============================================================================
 #     #TEST SIMPLE
@@ -153,12 +211,14 @@ if __name__ == '__main__':
 #     print(z, len(z))
 #     
 # =============================================================================
-    #TEST FULL
-    wordList = loadWords('words.txt')
-    hand = {'a': 2, 'c': 1, 'b': 1, 't': 1}
-    import time
-    start = time.time()
-    z = compChooseWord(hand, wordList, 5)
-    end = time.time()
-    print(end - start)
-    print(z, len(z))
+# =============================================================================
+#     #TEST FULL
+#     wordList = loadWords()
+#     hand = {'a': 2, 'c': 1, 'b': 1, 't': 1}
+#     import time
+#     start = time.time()
+#     z = compChooseWord(hand, wordList, 5)
+#     end = time.time()
+#     print(end - start)
+#     print(z, len(z))
+# =============================================================================
