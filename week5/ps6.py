@@ -206,7 +206,7 @@ class CiphertextMessage(Message):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+        Message.__init__(self, text)
 
     def decrypt_message(self):
         '''
@@ -224,18 +224,25 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
-        pass #delete this line and replace with your code here
+        def check(z):
+            for word in z.split():
+                print(word)
+                if not is_word(self.valid_words, word):
+                    print('.....wrong')
+                    return False
+            return True
+        for shift in range(1, 27):
+            text = self.apply_shift(shift)
+            if check(text):
+                return (shift, text)
+        
 
 #Example test case (PlaintextMessage)
-#plaintext = PlaintextMessage('hello', 2)
-#print('Expected Output: jgnnq')
-#print('Actual Output:', plaintext.get_message_text_encrypted())
-#    
-##Example test case (CiphertextMessage)
-#ciphertext = CiphertextMessage('jgnnq')
-#print('Expected Output:', (24, 'hello'))
-#print('Actual Output:', ciphertext.decrypt_message())
-
-z = Message('we are taking 6.00.1x')
-print(z.message_text)
-print(z.apply_shift(2))
+plaintext = PlaintextMessage('Message is Nonsense words: imagine curl quantity supply soil freedom not electric what lay effort world powder caution excess', 12)
+print('Expected Output: jgnnq')
+print('Actual Output:', plaintext.get_message_text_encrypted())
+    
+#Example test case (CiphertextMessage)
+ciphertext = CiphertextMessage(plaintext.get_message_text_encrypted())
+print('Expected Output:', (24, 'hello'))
+print('Actual Output:', ciphertext.decrypt_message())
