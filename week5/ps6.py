@@ -246,12 +246,16 @@ class CiphertextMessage(Message):
         
 
 #Example test case (PlaintextMessage)
-plaintext = PlaintextMessage('Message is Nonsense words: afraid hall hollow bitter stroke extraordinary know sacrifice throat tight care anyway drag idea daily', 12)
+#plaintext = PlaintextMessage('Message is Nonsense words: afraid hall hollow bitter stroke extraordinary know sacrifice throat tight care anyway drag idea daily', 12)
 #print('Expected Output: jgnnq')
 #print('Actual Output:', plaintext.get_message_text_encrypted())
     
 #Example test case (CiphertextMessage)
-ciphertext = CiphertextMessage(plaintext.get_message_text_encrypted())
+#ciphertext = CiphertextMessage(get_story_string())
 #ciphertext = CiphertextMessage('Rsrwirwi')
-print('Expected Output:', (24, 'hello'))
-print('Actual Output:', ciphertext.decrypt_message())
+#print('Expected Output:', (24, 'hello'))
+#print('Actual Output:', ciphertext.decrypt_message())
+
+def decrypt_story():
+    ciphertext = CiphertextMessage(get_story_string())
+    return ciphertext.decrypt_message()
