@@ -224,25 +224,34 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
+        best = 0
+        best_shift = 0
         def check(z):
+            correct_words = 0
             for word in z.split():
-                print(word)
-                if not is_word(self.valid_words, word):
-                    print('.....wrong')
-                    return False
-            return True
-        for shift in range(1, 27):
+                if is_word(self.valid_words, word):
+                    correct_words += 1
+#                    print('Correct words:', correct_words, 'Last:', word)
+            return correct_words
+        for shift in range(0, 27):
+#            print('\nStart with shift:', shift)
             text = self.apply_shift(shift)
-            if check(text):
-                return (shift, text)
+            x = check(text)
+            if x > best:
+                best = x
+                best_shift = shift
+#                print('best', best, 'best_shift', best_shift)
+        return (best_shift, self.apply_shift(best_shift))
+                
         
 
 #Example test case (PlaintextMessage)
-plaintext = PlaintextMessage('Message is Nonsense words: imagine curl quantity supply soil freedom not electric what lay effort world powder caution excess', 12)
-print('Expected Output: jgnnq')
-print('Actual Output:', plaintext.get_message_text_encrypted())
+plaintext = PlaintextMessage('Message is Nonsense words: afraid hall hollow bitter stroke extraordinary know sacrifice throat tight care anyway drag idea daily', 12)
+#print('Expected Output: jgnnq')
+#print('Actual Output:', plaintext.get_message_text_encrypted())
     
 #Example test case (CiphertextMessage)
 ciphertext = CiphertextMessage(plaintext.get_message_text_encrypted())
+#ciphertext = CiphertextMessage('Rsrwirwi')
 print('Expected Output:', (24, 'hello'))
 print('Actual Output:', ciphertext.decrypt_message())
